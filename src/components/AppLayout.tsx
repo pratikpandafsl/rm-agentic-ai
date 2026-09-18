@@ -17,12 +17,15 @@ import {
   History,
   Play,
   LogOut,
+  UserCog,
   type LucideIcon,
 } from "lucide-react";
 import { getSession, signOut } from "@/lib/auth";
+import { useApp } from "@/lib/app-context";
+import { TENANT_LIST, type TenantId } from "@/data/tenants";
 import { cn } from "@/lib/utils";
 
-const NAV_ITEMS: { label: string; icon: LucideIcon; to?: string }[] = [
+const NAV_ITEMS: { label: string; icon: LucideIcon; to: string }[] = [
   { label: "Overview", icon: LayoutGrid, to: "/" },
   { label: "Project Setup", icon: Briefcase, to: "/project-setup" },
   { label: "Rules", icon: Scale, to: "/rules" },
@@ -48,6 +51,8 @@ export function AppLayout({
 }) {
   const navigate = useNavigate();
   const session = getSession();
+  const { tenant, tenantId, setTenantId, role } = useApp();
+  const visibleItems = NAV_ITEMS.filter((item) => role.menu.includes(item.label));
 
   return (
     <div className="flex min-h-screen bg-muted/40">
@@ -61,37 +66,26 @@ export function AppLayout({
             <p className="text-sm font-semibold text-sidebar-primary-foreground">
               RM Agentic AI
             </p>
-            <p className="text-xs text-sidebar-foreground/70">Mayo Phase 1</p>
+            <p className="text-xs text-sidebar-foreground/70">{tenant.phaseLabel}</p>
           </div>
         </div>
 
         <nav className="flex-1 overflow-y-auto px-3 py-4">
           <ul className="space-y-1">
-            {NAV_ITEMS.map((item) => (
+            {visibleItems.map((item) => (
               <li key={item.label}>
-                {item.to ? (
-                  <Link
-                    to={item.to}
-                    className={cn(
-                      "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
-                      active === item.label
-                        ? "bg-sidebar-accent font-medium text-sidebar-accent-foreground"
-                        : "text-sidebar-foreground/80 hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground",
-                    )}
-                  >
-                    <item.icon className="h-4 w-4 shrink-0" />
-                    {item.label}
-                  </Link>
-                ) : (
-                  <a
-                    href="#"
-                    onClick={(e) => e.preventDefault()}
-                    className="flex items-center gap-3 rounded-md px-3 py-2 text-sm text-sidebar-foreground/80 transition-colors hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground"
-                  >
-                    <item.icon className="h-4 w-4 shrink-0" />
-                    {item.label}
-                  </a>
-                )}
+                <Link
+                  to={item.to}
+                  className={cn(
+                    "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
+                    active === item.label
+                      ? "bg-sidebar-accent font-medium text-sidebar-accent-foreground"
+                      : "text-sidebar-foreground/80 hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground",
+                  )}
+                >
+                  <item.icon className="h-4 w-4 shrink-0" />
+                  {item.label}
+                </Link>
               </li>
             ))}
           </ul>
@@ -106,6 +100,13 @@ export function AppLayout({
               No source-system writeback
             </p>
           </div>
+          <Link
+            to="/simulate"
+            className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-xs text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground"
+          >
+            <UserCog className="h-3.5 w-3.5" />
+            Role: {role.name}
+          </Link>
           {session && (
             <button
               type="button"
@@ -126,12 +127,26 @@ export function AppLayout({
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="flex items-center justify-between border-b border-border bg-card px-6 py-3">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-semibold text-foreground">Mayo POC</span>
+            <label htmlFor="tenant-switcher" className="sr-only">
+              Select project
+            </label>
+            <select
+              id="tenant-switcher"
+              value={tenantId}
+              onChange={(event) => setTenantId(event.target.value as TenantId)}
+              className="rounded-md border border-input bg-card px-2 py-1 text-sm font-semibold text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+            >
+              {TENANT_LIST.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+            </select>
             <span className="rounded bg-accent px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-accent-foreground">
-              Test
+              {tenant.environment}
             </span>
             <span className="rounded bg-secondary px-1.5 py-0.5 text-[10px] font-medium text-secondary-foreground">
-              1-2 months
+              {tenant.duration}
             </span>
           </div>
           <button

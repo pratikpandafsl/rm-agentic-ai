@@ -1,16 +1,17 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { Check } from "lucide-react";
 import { useEffect, useState } from "react";
 import { AppLayout } from "@/components/AppLayout";
-import { getSession } from "@/lib/auth";
+import { useApp } from "@/lib/app-context";
+import { useProtectedPage } from "@/lib/use-protected-page";
 
 export const Route = createFileRoute("/poc-runs")({
   head: () => ({
     meta: [
-      { title: "POC Runs · RM Agentic AI — Mayo Phase 1" },
-      { name: "description", content: "Execute and monitor locked Mayo POC datasets, rules, agents and workflow snapshots." },
-      { property: "og:title", content: "POC Runs · RM Agentic AI — Mayo Phase 1" },
-      { property: "og:description", content: "Execute and monitor locked Mayo POC datasets, rules, agents and workflow snapshots." },
+      { title: "POC Runs · RM Agentic AI" },
+      { name: "description", content: "Execute and monitor locked POC datasets, rules, agents and workflow snapshots." },
+      { property: "og:title", content: "POC Runs · RM Agentic AI" },
+      { property: "og:description", content: "Execute and monitor locked POC datasets, rules, agents and workflow snapshots." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -18,35 +19,33 @@ export const Route = createFileRoute("/poc-runs")({
   component: PocRunsRoute,
 });
 
-const STAGES = ["Rules applied", "Timeline built", "Evidence correlated", "State & cause", "Action", "Review route"];
-
-type Run = { id: string; accounts: number; dataset: string; workflow: string; status: string };
-
 function PocRunsRoute() {
-  const navigate = useNavigate();
-  const [checked, setChecked] = useState(false);
-
-  useEffect(() => {
-    if (!getSession()) navigate({ to: "/login" });
-    setChecked(true);
-  }, [navigate]);
-
-  if (!checked) return null;
+  const ready = useProtectedPage("POC Runs");
+  if (!ready) return null;
   return <PocRunsPage />;
 }
 
 function PocRunsPage() {
-  const [runs, setRuns] = useState<Run[]>([
-    { id: "RUN-001", accounts: 10, dataset: "Mayo paid sample v1", workflow: "Workflow v1", status: "Completed with gaps" },
-  ]);
+  const { tenant } = useApp();
+  const config = tenant.pocRuns;
+  const [runs, setRuns] = useState(config.runs);
   const [notice, setNotice] = useState<string | null>(null);
+
+  useEffect(() => {
+    setRuns(config.runs);
+    setNotice(null);
+  }, [config]);
 
   const createRun = () => {
     if (runs.some((run) => run.id === "RUN-002")) {
       setNotice("RUN-002 is already queued.");
       return;
     }
-    setRuns((current) => [...current, { id: "RUN-002", accounts: 10, dataset: "Mayo paid sample v1", workflow: "Workflow v1", status: "Queued" }]);
+    const accounts = runs[0]?.accounts ?? 10;
+    setRuns((current) => [
+      ...current,
+      { id: "RUN-002", accounts, dataset: config.dataset, workflow: config.workflow, status: "Queued" },
+    ]);
     setNotice("RUN-002 created and queued.");
   };
 
@@ -80,7 +79,7 @@ function PocRunsPage() {
       <section className="mt-3 overflow-hidden rounded-lg border border-border bg-card shadow-sm">
         <h2 className="border-b border-border px-4 py-3 text-base font-semibold text-foreground">Latest run stages</h2>
         <div className="grid gap-2 p-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-          {STAGES.map((stage) => (
+          {config.stages.map((stage) => (
             <div key={stage} className="flex min-h-16 flex-col items-center justify-center rounded-md border border-border px-3 py-2 text-center">
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-accent text-primary"><Check className="h-4 w-4" /></span>
               <p className="mt-1 text-sm font-semibold text-foreground">{stage}</p>

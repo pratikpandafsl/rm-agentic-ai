@@ -1,16 +1,17 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { AppLayout } from "@/components/AppLayout";
-import { getSession } from "@/lib/auth";
+import { useApp } from "@/lib/app-context";
+import { useProtectedPage } from "@/lib/use-protected-page";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/agent-configuration")({
   head: () => ({
     meta: [
-      { title: "Agent Configuration · RM Agentic AI — Mayo Phase 1" },
-      { name: "description", content: "Configure Mayo agent models, instructions, schemas and confidence thresholds." },
-      { property: "og:title", content: "Agent Configuration · RM Agentic AI — Mayo Phase 1" },
-      { property: "og:description", content: "Configure Mayo agent models, instructions, schemas and confidence thresholds." },
+      { title: "Agent Configuration · RM Agentic AI" },
+      { name: "description", content: "Configure agent models, instructions, schemas and confidence thresholds." },
+      { property: "og:title", content: "Agent Configuration · RM Agentic AI" },
+      { property: "og:description", content: "Configure agent models, instructions, schemas and confidence thresholds." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -18,51 +19,33 @@ export const Route = createFileRoute("/agent-configuration")({
   component: AgentConfigurationRoute,
 });
 
-type Agent = {
-  name: string;
-  schema: string;
-  description: string;
-};
-
-const AGENTS: Agent[] = [
-  { name: "Data Validation Agent", schema: "DataValidationOutput v1", description: "Validate source completeness, mappings, joins and contradictions." },
-  { name: "Timeline Reconstruction Agent", schema: "TimelineOutput v1", description: "Reconstruct the ordered account timeline from supplied evidence." },
-  { name: "Evidence Correlation Agent", schema: "EvidenceCorrelationOutput v1", description: "Correlate remittance, inventory and note evidence across sources." },
-  { name: "State & Root Cause Agent", schema: "StateCauseOutput v1", description: "Determine the current account state and supported root cause." },
-  { name: "Next Action Agent", schema: "NextActionOutput v1", description: "Recommend the next compliant action from validated evidence." },
-  { name: "Review Routing Agent", schema: "ReviewRoutingOutput v1", description: "Route uncertain or high-impact results for human review." },
-];
-
-const DEFAULT_AGENT: Agent = {
-  name: "Data Validation Agent",
-  schema: "DataValidationOutput v1",
-  description: "Validate source completeness, mappings, joins and contradictions.",
-};
-
 function AgentConfigurationRoute() {
-  const navigate = useNavigate();
-  const [checked, setChecked] = useState(false);
-
-  useEffect(() => {
-    if (!getSession()) navigate({ to: "/login" });
-    setChecked(true);
-  }, [navigate]);
-
-  if (!checked) return null;
+  const ready = useProtectedPage("Agent Configuration");
+  if (!ready) return null;
   return <AgentConfigurationPage />;
 }
 
 function AgentConfigurationPage() {
+  const { tenant } = useApp();
+  const agents = tenant.agents;
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [model, setModel] = useState("Deterministic only");
-  const [instruction, setInstruction] = useState("Use supplied evidence only. Distinguish facts from inference. Cite fields. Return schema-valid JSON.");
-  const [schema, setSchema] = useState(DEFAULT_AGENT.schema);
+  const [instruction, setInstruction] = useState(
+    "Use supplied evidence only. Distinguish facts from inference. Cite fields. Return schema-valid JSON.",
+  );
+  const [schema, setSchema] = useState(agents[0]?.schema ?? "");
   const [threshold, setThreshold] = useState("0.8");
   const [notice, setNotice] = useState<string | null>(null);
-  const selected = AGENTS[selectedIndex] ?? DEFAULT_AGENT;
+  const selected = agents[selectedIndex] ?? agents[0]!;
+
+  useEffect(() => {
+    setSelectedIndex(0);
+    setSchema(agents[0]?.schema ?? "");
+    setNotice(null);
+  }, [agents]);
 
   const selectAgent = (index: number) => {
-    const nextAgent = AGENTS[index];
+    const nextAgent = agents[index];
     if (!nextAgent) return;
     setSelectedIndex(index);
     setSchema(nextAgent.schema);
@@ -78,14 +61,18 @@ function AgentConfigurationPage() {
     <AppLayout active="Agent Configuration">
       <div>
         <h1 className="text-2xl font-semibold text-foreground">Agent configuration</h1>
-        <p className="mt-1 text-sm text-muted-foreground">Version role, model, prompt, tools, thresholds and structured output contract.</p>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Version role, model, prompt, tools, thresholds and structured output contract.
+        </p>
       </div>
 
       <div className="mt-4 grid min-h-[600px] grid-cols-1 gap-3 xl:grid-cols-[184px_minmax(360px,1fr)_280px]">
         <section className="overflow-hidden rounded-lg border border-border bg-card shadow-sm">
-          <h2 className="border-b border-border px-3 py-3 text-sm font-semibold text-foreground">Six Mayo agents</h2>
+          <h2 className="border-b border-border px-3 py-3 text-sm font-semibold text-foreground">
+            {agents.length} {tenant.shortName} agents
+          </h2>
           <div className="space-y-1.5 p-3">
-            {AGENTS.map((agent, index) => (
+            {agents.map((agent, index) => (
               <button
                 key={agent.name}
                 type="button"
@@ -127,7 +114,7 @@ function AgentConfigurationPage() {
             </label>
             <label className="block text-[11px] font-semibold text-foreground">Output schema
               <select value={schema} onChange={(event) => setSchema(event.target.value)} className="mt-1 h-8 w-full rounded-md border border-input bg-background px-2 text-xs text-foreground">
-                {AGENTS.map((agent) => <option key={agent.schema}>{agent.schema}</option>)}
+                {agents.map((agent) => <option key={agent.schema}>{agent.schema}</option>)}
               </select>
             </label>
             <label className="block text-[11px] font-semibold text-foreground">Confidence threshold

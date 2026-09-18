@@ -59,7 +59,7 @@ function LoginPage() {
             </div>
             <div>
               <p className="text-base font-semibold text-foreground">RM Agentic AI</p>
-              <p className="text-xs text-muted-foreground">Mayo Phase 1 workspace</p>
+              <p className="text-xs text-muted-foreground">AR intelligence workspace</p>
             </div>
           </div>
 
@@ -88,7 +88,7 @@ function LoginPage() {
         </div>
 
         <p className="mt-4 text-center text-xs text-muted-foreground">
-          Protected by single sign-on · Mayo POC
+          Protected by single sign-on
         </p>
       </div>
     </div>

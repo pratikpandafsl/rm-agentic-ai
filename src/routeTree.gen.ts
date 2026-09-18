@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccountResultsRouteImport } from './routes/account-results'
 import { Route as AgentConfigurationRouteImport } from './routes/agent-configuration'
 import { Route as DataSourcesRouteImport } from './routes/data-sources'
+import { Route as HitlRouteImport } from './routes/hitl'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as MappingQualityRouteImport } from './routes/mapping-quality'
 import { Route as NewPatternsRouteImport } from './routes/new-patterns'
@@ -40,6 +41,11 @@ const AgentConfigurationRoute = AgentConfigurationRouteImport.update({
 const DataSourcesRoute = DataSourcesRouteImport.update({
   id: '/data-sources',
   path: '/data-sources',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HitlRoute = HitlRouteImport.update({
+  id: '/hitl',
+  path: '/hitl',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -88,6 +94,7 @@ export interface FileRoutesByFullPath {
   '/account-results': typeof AccountResultsRoute
   '/agent-configuration': typeof AgentConfigurationRoute
   '/data-sources': typeof DataSourcesRoute
+  '/hitl': typeof HitlRoute
   '/login': typeof LoginRoute
   '/mapping-quality': typeof MappingQualityRoute
   '/new-patterns': typeof NewPatternsRoute
@@ -102,6 +109,7 @@ export interface FileRoutesByTo {
   '/account-results': typeof AccountResultsRoute
   '/agent-configuration': typeof AgentConfigurationRoute
   '/data-sources': typeof DataSourcesRoute
+  '/hitl': typeof HitlRoute
   '/login': typeof LoginRoute
   '/mapping-quality': typeof MappingQualityRoute
   '/new-patterns': typeof NewPatternsRoute
@@ -117,6 +125,7 @@ export interface FileRoutesById {
   '/account-results': typeof AccountResultsRoute
   '/agent-configuration': typeof AgentConfigurationRoute
   '/data-sources': typeof DataSourcesRoute
+  '/hitl': typeof HitlRoute
   '/login': typeof LoginRoute
   '/mapping-quality': typeof MappingQualityRoute
   '/new-patterns': typeof NewPatternsRoute
@@ -133,6 +142,7 @@ export interface FileRouteTypes {
     | '/account-results'
     | '/agent-configuration'
     | '/data-sources'
+    | '/hitl'
     | '/login'
     | '/mapping-quality'
     | '/new-patterns'
@@ -147,6 +157,7 @@ export interface FileRouteTypes {
     | '/account-results'
     | '/agent-configuration'
     | '/data-sources'
+    | '/hitl'
     | '/login'
     | '/mapping-quality'
     | '/new-patterns'
@@ -161,6 +172,7 @@ export interface FileRouteTypes {
     | '/account-results'
     | '/agent-configuration'
     | '/data-sources'
+    | '/hitl'
     | '/login'
     | '/mapping-quality'
     | '/new-patterns'
@@ -176,6 +188,7 @@ export interface RootRouteChildren {
   AccountResultsRoute: typeof AccountResultsRoute
   AgentConfigurationRoute: typeof AgentConfigurationRoute
   DataSourcesRoute: typeof DataSourcesRoute
+  HitlRoute: typeof HitlRoute
   LoginRoute: typeof LoginRoute
   MappingQualityRoute: typeof MappingQualityRoute
   NewPatternsRoute: typeof NewPatternsRoute
@@ -214,6 +227,13 @@ declare module '@tanstack/react-router' {
       path: '/data-sources'
       fullPath: '/data-sources'
       preLoaderRoute: typeof DataSourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hitl': {
+      id: '/hitl'
+      path: '/hitl'
+      fullPath: '/hitl'
+      preLoaderRoute: typeof HitlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -280,6 +300,7 @@ const rootRouteChildren: RootRouteChildren = {
   AccountResultsRoute: AccountResultsRoute,
   AgentConfigurationRoute: AgentConfigurationRoute,
   DataSourcesRoute: DataSourcesRoute,
+  HitlRoute: HitlRoute,
   LoginRoute: LoginRoute,
   MappingQualityRoute: MappingQualityRoute,
   NewPatternsRoute: NewPatternsRoute,

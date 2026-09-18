@@ -70,7 +70,7 @@ function ProjectSetupPage() {
         onSubmit={handleSubmit}
         className="mt-5 rounded-lg border border-border bg-card p-6 shadow-sm"
       >
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
           <div>
             <label htmlFor="project" className={labelClass}>
               Project

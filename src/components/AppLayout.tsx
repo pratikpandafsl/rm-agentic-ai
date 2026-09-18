@@ -28,7 +28,7 @@ const NAV_ITEMS: { label: string; icon: LucideIcon; to?: string }[] = [
   { label: "Rules", icon: Scale, to: "/rules" },
   { label: "Data Sources", icon: Database, to: "/data-sources" },
   { label: "Mapping & Quality", icon: ShieldCheck, to: "/mapping-quality" },
-  { label: "Agent Configuration", icon: SlidersHorizontal },
+  { label: "Agent Configuration", icon: SlidersHorizontal, to: "/agent-configuration" },
   { label: "Workflow Designer", icon: Workflow },
   { label: "POC Runs", icon: Target },
   { label: "Account Results", icon: Newspaper },

@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AgentConfigurationRouteImport } from './routes/agent-configuration'
 import { Route as DataSourcesRouteImport } from './routes/data-sources'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as MappingQualityRouteImport } from './routes/mapping-quality'
@@ -19,6 +20,11 @@ import { Route as RulesRouteImport } from './routes/rules'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgentConfigurationRoute = AgentConfigurationRouteImport.update({
+  id: '/agent-configuration',
+  path: '/agent-configuration',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DataSourcesRoute = DataSourcesRouteImport.update({
@@ -49,6 +55,7 @@ const RulesRoute = RulesRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/agent-configuration': typeof AgentConfigurationRoute
   '/data-sources': typeof DataSourcesRoute
   '/login': typeof LoginRoute
   '/mapping-quality': typeof MappingQualityRoute
@@ -57,6 +64,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/agent-configuration': typeof AgentConfigurationRoute
   '/data-sources': typeof DataSourcesRoute
   '/login': typeof LoginRoute
   '/mapping-quality': typeof MappingQualityRoute
@@ -66,6 +74,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/agent-configuration': typeof AgentConfigurationRoute
   '/data-sources': typeof DataSourcesRoute
   '/login': typeof LoginRoute
   '/mapping-quality': typeof MappingQualityRoute
@@ -76,6 +85,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/agent-configuration'
     | '/data-sources'
     | '/login'
     | '/mapping-quality'
@@ -84,6 +94,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/agent-configuration'
     | '/data-sources'
     | '/login'
     | '/mapping-quality'
@@ -92,6 +103,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/agent-configuration'
     | '/data-sources'
     | '/login'
     | '/mapping-quality'
@@ -101,6 +113,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AgentConfigurationRoute: typeof AgentConfigurationRoute
   DataSourcesRoute: typeof DataSourcesRoute
   LoginRoute: typeof LoginRoute
   MappingQualityRoute: typeof MappingQualityRoute
@@ -115,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agent-configuration': {
+      id: '/agent-configuration'
+      path: '/agent-configuration'
+      fullPath: '/agent-configuration'
+      preLoaderRoute: typeof AgentConfigurationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/data-sources': {
@@ -157,6 +177,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AgentConfigurationRoute: AgentConfigurationRoute,
   DataSourcesRoute: DataSourcesRoute,
   LoginRoute: LoginRoute,
   MappingQualityRoute: MappingQualityRoute,

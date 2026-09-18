@@ -170,6 +170,7 @@ export function AppLayout({
           </div>
           <button
             type="button"
+            onClick={tour.start}
             className="flex items-center gap-2 rounded-md border border-input bg-card px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-accent"
           >
             <Play className="h-3.5 w-3.5" />
@@ -179,6 +180,7 @@ export function AppLayout({
 
         <main className="flex-1 px-6 py-6">{children}</main>
       </div>
+      <TourOverlay />
     </div>
   );
 }

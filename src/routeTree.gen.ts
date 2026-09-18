@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccountResultsRouteImport } from './routes/account-results'
 import { Route as AgentConfigurationRouteImport } from './routes/agent-configuration'
+import { Route as AuditVersionsRouteImport } from './routes/audit-versions'
 import { Route as DataSourcesRouteImport } from './routes/data-sources'
 import { Route as HitlRouteImport } from './routes/hitl'
 import { Route as LoginRouteImport } from './routes/login'
@@ -37,6 +38,11 @@ const AccountResultsRoute = AccountResultsRouteImport.update({
 const AgentConfigurationRoute = AgentConfigurationRouteImport.update({
   id: '/agent-configuration',
   path: '/agent-configuration',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuditVersionsRoute = AuditVersionsRouteImport.update({
+  id: '/audit-versions',
+  path: '/audit-versions',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DataSourcesRoute = DataSourcesRouteImport.update({
@@ -99,6 +105,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/account-results': typeof AccountResultsRoute
   '/agent-configuration': typeof AgentConfigurationRoute
+  '/audit-versions': typeof AuditVersionsRoute
   '/data-sources': typeof DataSourcesRoute
   '/hitl': typeof HitlRoute
   '/login': typeof LoginRoute
@@ -115,6 +122,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/account-results': typeof AccountResultsRoute
   '/agent-configuration': typeof AgentConfigurationRoute
+  '/audit-versions': typeof AuditVersionsRoute
   '/data-sources': typeof DataSourcesRoute
   '/hitl': typeof HitlRoute
   '/login': typeof LoginRoute
@@ -132,6 +140,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/account-results': typeof AccountResultsRoute
   '/agent-configuration': typeof AgentConfigurationRoute
+  '/audit-versions': typeof AuditVersionsRoute
   '/data-sources': typeof DataSourcesRoute
   '/hitl': typeof HitlRoute
   '/login': typeof LoginRoute
@@ -150,6 +159,7 @@ export interface FileRouteTypes {
     | '/'
     | '/account-results'
     | '/agent-configuration'
+    | '/audit-versions'
     | '/data-sources'
     | '/hitl'
     | '/login'
@@ -166,6 +176,7 @@ export interface FileRouteTypes {
     | '/'
     | '/account-results'
     | '/agent-configuration'
+    | '/audit-versions'
     | '/data-sources'
     | '/hitl'
     | '/login'
@@ -182,6 +193,7 @@ export interface FileRouteTypes {
     | '/'
     | '/account-results'
     | '/agent-configuration'
+    | '/audit-versions'
     | '/data-sources'
     | '/hitl'
     | '/login'
@@ -199,6 +211,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccountResultsRoute: typeof AccountResultsRoute
   AgentConfigurationRoute: typeof AgentConfigurationRoute
+  AuditVersionsRoute: typeof AuditVersionsRoute
   DataSourcesRoute: typeof DataSourcesRoute
   HitlRoute: typeof HitlRoute
   LoginRoute: typeof LoginRoute
@@ -233,6 +246,13 @@ declare module '@tanstack/react-router' {
       path: '/agent-configuration'
       fullPath: '/agent-configuration'
       preLoaderRoute: typeof AgentConfigurationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/audit-versions': {
+      id: '/audit-versions'
+      path: '/audit-versions'
+      fullPath: '/audit-versions'
+      preLoaderRoute: typeof AuditVersionsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/data-sources': {
@@ -319,6 +339,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccountResultsRoute: AccountResultsRoute,
   AgentConfigurationRoute: AgentConfigurationRoute,
+  AuditVersionsRoute: AuditVersionsRoute,
   DataSourcesRoute: DataSourcesRoute,
   HitlRoute: HitlRoute,
   LoginRoute: LoginRoute,

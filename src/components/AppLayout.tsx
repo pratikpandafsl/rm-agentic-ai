@@ -33,7 +33,7 @@ const NAV_ITEMS: { label: string; icon: LucideIcon; to?: string }[] = [
   { label: "POC Runs", icon: Target, to: "/poc-runs" },
   { label: "Account Results", icon: Newspaper, to: "/account-results" },
   { label: "New Patterns", icon: Sparkles, to: "/new-patterns" },
-  { label: "Output File", icon: FileText },
+  { label: "Output File", icon: FileText, to: "/output-file" },
   { label: "HITL", icon: User },
   { label: "Validation", icon: TrendingUp },
   { label: "Audit & Versions", icon: History },

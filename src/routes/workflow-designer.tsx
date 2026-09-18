@@ -51,7 +51,11 @@ function WorkflowDesignerPage() {
     if (target < 0 || target >= agents.length) return;
     setAgents((current) => {
       const next = [...current];
-      [next[index], next[target]] = [next[target], next[index]];
+      const selectedAgent = next[index];
+      const targetAgent = next[target];
+      if (!selectedAgent || !targetAgent) return current;
+      next[index] = targetAgent;
+      next[target] = selectedAgent;
       return next;
     });
     setNotice(null);

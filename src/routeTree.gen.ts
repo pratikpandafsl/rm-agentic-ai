@@ -16,6 +16,7 @@ import { Route as DataSourcesRouteImport } from './routes/data-sources'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as MappingQualityRouteImport } from './routes/mapping-quality'
 import { Route as NewPatternsRouteImport } from './routes/new-patterns'
+import { Route as OutputFileRouteImport } from './routes/output-file'
 import { Route as PocRunsRouteImport } from './routes/poc-runs'
 import { Route as ProjectSetupRouteImport } from './routes/project-setup'
 import { Route as RulesRouteImport } from './routes/rules'
@@ -56,6 +57,11 @@ const NewPatternsRoute = NewPatternsRouteImport.update({
   path: '/new-patterns',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OutputFileRoute = OutputFileRouteImport.update({
+  id: '/output-file',
+  path: '/output-file',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PocRunsRoute = PocRunsRouteImport.update({
   id: '/poc-runs',
   path: '/poc-runs',
@@ -85,6 +91,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/mapping-quality': typeof MappingQualityRoute
   '/new-patterns': typeof NewPatternsRoute
+  '/output-file': typeof OutputFileRoute
   '/poc-runs': typeof PocRunsRoute
   '/project-setup': typeof ProjectSetupRoute
   '/rules': typeof RulesRoute
@@ -98,6 +105,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/mapping-quality': typeof MappingQualityRoute
   '/new-patterns': typeof NewPatternsRoute
+  '/output-file': typeof OutputFileRoute
   '/poc-runs': typeof PocRunsRoute
   '/project-setup': typeof ProjectSetupRoute
   '/rules': typeof RulesRoute
@@ -112,6 +120,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/mapping-quality': typeof MappingQualityRoute
   '/new-patterns': typeof NewPatternsRoute
+  '/output-file': typeof OutputFileRoute
   '/poc-runs': typeof PocRunsRoute
   '/project-setup': typeof ProjectSetupRoute
   '/rules': typeof RulesRoute
@@ -127,6 +136,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/mapping-quality'
     | '/new-patterns'
+    | '/output-file'
     | '/poc-runs'
     | '/project-setup'
     | '/rules'
@@ -140,6 +150,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/mapping-quality'
     | '/new-patterns'
+    | '/output-file'
     | '/poc-runs'
     | '/project-setup'
     | '/rules'
@@ -153,6 +164,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/mapping-quality'
     | '/new-patterns'
+    | '/output-file'
     | '/poc-runs'
     | '/project-setup'
     | '/rules'
@@ -167,6 +179,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   MappingQualityRoute: typeof MappingQualityRoute
   NewPatternsRoute: typeof NewPatternsRoute
+  OutputFileRoute: typeof OutputFileRoute
   PocRunsRoute: typeof PocRunsRoute
   ProjectSetupRoute: typeof ProjectSetupRoute
   RulesRoute: typeof RulesRoute
@@ -224,6 +237,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NewPatternsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/output-file': {
+      id: '/output-file'
+      path: '/output-file'
+      fullPath: '/output-file'
+      preLoaderRoute: typeof OutputFileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/poc-runs': {
       id: '/poc-runs'
       path: '/poc-runs'
@@ -263,6 +283,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   MappingQualityRoute: MappingQualityRoute,
   NewPatternsRoute: NewPatternsRoute,
+  OutputFileRoute: OutputFileRoute,
   PocRunsRoute: PocRunsRoute,
   ProjectSetupRoute: ProjectSetupRoute,
   RulesRoute: RulesRoute,

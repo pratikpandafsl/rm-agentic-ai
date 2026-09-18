@@ -110,18 +110,7 @@ function ProjectSetupPage() {
               {GROUND_TRUTH_OPTIONS.map((o) => (
                 <option key={o}>{o}</option>
               ))}
-            </select>
-          </div>
-          <div>
-            <label htmlFor="environment" className={labelClass}>
-              Environment
-            </label>
-            <input
-              id="environment"
-              value={environment}
-              onChange={(e) => setEnvironment(e.target.value)}
-              className={inputClass}
-            />
+          </select>
           </div>
         </div>
 

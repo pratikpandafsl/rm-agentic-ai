@@ -33,6 +33,12 @@ const AGENTS: Agent[] = [
   { name: "Review Routing Agent", schema: "ReviewRoutingOutput v1", description: "Route uncertain or high-impact results for human review." },
 ];
 
+const DEFAULT_AGENT: Agent = {
+  name: "Data Validation Agent",
+  schema: "DataValidationOutput v1",
+  description: "Validate source completeness, mappings, joins and contradictions.",
+};
+
 function AgentConfigurationRoute() {
   const navigate = useNavigate();
   const [checked, setChecked] = useState(false);
@@ -53,11 +59,13 @@ function AgentConfigurationPage() {
   const [schema, setSchema] = useState(AGENTS[0].schema);
   const [threshold, setThreshold] = useState("0.8");
   const [notice, setNotice] = useState<string | null>(null);
-  const selected = AGENTS[selectedIndex];
+  const selected = AGENTS[selectedIndex] ?? DEFAULT_AGENT;
 
   const selectAgent = (index: number) => {
+    const nextAgent = AGENTS[index];
+    if (!nextAgent) return;
     setSelectedIndex(index);
-    setSchema(AGENTS[index].schema);
+    setSchema(nextAgent.schema);
     setNotice(null);
   };
 

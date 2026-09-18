@@ -30,7 +30,7 @@ const NAV_ITEMS: { label: string; icon: LucideIcon; to?: string }[] = [
   { label: "Mapping & Quality", icon: ShieldCheck, to: "/mapping-quality" },
   { label: "Agent Configuration", icon: SlidersHorizontal, to: "/agent-configuration" },
   { label: "Workflow Designer", icon: Workflow, to: "/workflow-designer" },
-  { label: "POC Runs", icon: Target },
+  { label: "POC Runs", icon: Target, to: "/poc-runs" },
   { label: "Account Results", icon: Newspaper },
   { label: "New Patterns", icon: Sparkles },
   { label: "Output File", icon: FileText },

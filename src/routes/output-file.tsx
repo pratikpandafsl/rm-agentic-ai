@@ -38,7 +38,7 @@ function OutputFileRoute() {
 }
 
 function escapeCsv(value: string) {
-  return `"${value.replaceAll('"', '""')}"`;
+  return `"${value.replace(/"/g, '""')}"`;
 }
 
 function exportCsv() {

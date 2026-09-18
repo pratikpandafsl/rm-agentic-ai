@@ -14,6 +14,7 @@ import { Route as AgentConfigurationRouteImport } from './routes/agent-configura
 import { Route as DataSourcesRouteImport } from './routes/data-sources'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as MappingQualityRouteImport } from './routes/mapping-quality'
+import { Route as PocRunsRouteImport } from './routes/poc-runs'
 import { Route as ProjectSetupRouteImport } from './routes/project-setup'
 import { Route as RulesRouteImport } from './routes/rules'
 import { Route as WorkflowDesignerRouteImport } from './routes/workflow-designer'
@@ -43,6 +44,11 @@ const MappingQualityRoute = MappingQualityRouteImport.update({
   path: '/mapping-quality',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PocRunsRoute = PocRunsRouteImport.update({
+  id: '/poc-runs',
+  path: '/poc-runs',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProjectSetupRoute = ProjectSetupRouteImport.update({
   id: '/project-setup',
   path: '/project-setup',
@@ -65,6 +71,7 @@ export interface FileRoutesByFullPath {
   '/data-sources': typeof DataSourcesRoute
   '/login': typeof LoginRoute
   '/mapping-quality': typeof MappingQualityRoute
+  '/poc-runs': typeof PocRunsRoute
   '/project-setup': typeof ProjectSetupRoute
   '/rules': typeof RulesRoute
   '/workflow-designer': typeof WorkflowDesignerRoute
@@ -75,6 +82,7 @@ export interface FileRoutesByTo {
   '/data-sources': typeof DataSourcesRoute
   '/login': typeof LoginRoute
   '/mapping-quality': typeof MappingQualityRoute
+  '/poc-runs': typeof PocRunsRoute
   '/project-setup': typeof ProjectSetupRoute
   '/rules': typeof RulesRoute
   '/workflow-designer': typeof WorkflowDesignerRoute
@@ -86,6 +94,7 @@ export interface FileRoutesById {
   '/data-sources': typeof DataSourcesRoute
   '/login': typeof LoginRoute
   '/mapping-quality': typeof MappingQualityRoute
+  '/poc-runs': typeof PocRunsRoute
   '/project-setup': typeof ProjectSetupRoute
   '/rules': typeof RulesRoute
   '/workflow-designer': typeof WorkflowDesignerRoute
@@ -98,6 +107,7 @@ export interface FileRouteTypes {
     | '/data-sources'
     | '/login'
     | '/mapping-quality'
+    | '/poc-runs'
     | '/project-setup'
     | '/rules'
     | '/workflow-designer'
@@ -108,6 +118,7 @@ export interface FileRouteTypes {
     | '/data-sources'
     | '/login'
     | '/mapping-quality'
+    | '/poc-runs'
     | '/project-setup'
     | '/rules'
     | '/workflow-designer'
@@ -118,6 +129,7 @@ export interface FileRouteTypes {
     | '/data-sources'
     | '/login'
     | '/mapping-quality'
+    | '/poc-runs'
     | '/project-setup'
     | '/rules'
     | '/workflow-designer'
@@ -129,6 +141,7 @@ export interface RootRouteChildren {
   DataSourcesRoute: typeof DataSourcesRoute
   LoginRoute: typeof LoginRoute
   MappingQualityRoute: typeof MappingQualityRoute
+  PocRunsRoute: typeof PocRunsRoute
   ProjectSetupRoute: typeof ProjectSetupRoute
   RulesRoute: typeof RulesRoute
   WorkflowDesignerRoute: typeof WorkflowDesignerRoute
@@ -171,6 +184,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MappingQualityRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/poc-runs': {
+      id: '/poc-runs'
+      path: '/poc-runs'
+      fullPath: '/poc-runs'
+      preLoaderRoute: typeof PocRunsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/project-setup': {
       id: '/project-setup'
       path: '/project-setup'
@@ -201,6 +221,7 @@ const rootRouteChildren: RootRouteChildren = {
   DataSourcesRoute: DataSourcesRoute,
   LoginRoute: LoginRoute,
   MappingQualityRoute: MappingQualityRoute,
+  PocRunsRoute: PocRunsRoute,
   ProjectSetupRoute: ProjectSetupRoute,
   RulesRoute: RulesRoute,
   WorkflowDesignerRoute: WorkflowDesignerRoute,

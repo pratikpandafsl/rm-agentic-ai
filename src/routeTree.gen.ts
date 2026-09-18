@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AccountResultsRouteImport } from './routes/account-results'
 import { Route as AgentConfigurationRouteImport } from './routes/agent-configuration'
 import { Route as DataSourcesRouteImport } from './routes/data-sources'
 import { Route as LoginRouteImport } from './routes/login'
@@ -22,6 +23,11 @@ import { Route as WorkflowDesignerRouteImport } from './routes/workflow-designer
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountResultsRoute = AccountResultsRouteImport.update({
+  id: '/account-results',
+  path: '/account-results',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AgentConfigurationRoute = AgentConfigurationRouteImport.update({
@@ -67,6 +73,7 @@ const WorkflowDesignerRoute = WorkflowDesignerRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/account-results': typeof AccountResultsRoute
   '/agent-configuration': typeof AgentConfigurationRoute
   '/data-sources': typeof DataSourcesRoute
   '/login': typeof LoginRoute
@@ -78,6 +85,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/account-results': typeof AccountResultsRoute
   '/agent-configuration': typeof AgentConfigurationRoute
   '/data-sources': typeof DataSourcesRoute
   '/login': typeof LoginRoute
@@ -90,6 +98,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/account-results': typeof AccountResultsRoute
   '/agent-configuration': typeof AgentConfigurationRoute
   '/data-sources': typeof DataSourcesRoute
   '/login': typeof LoginRoute
@@ -103,6 +112,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/account-results'
     | '/agent-configuration'
     | '/data-sources'
     | '/login'
@@ -114,6 +124,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/account-results'
     | '/agent-configuration'
     | '/data-sources'
     | '/login'
@@ -125,6 +136,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/account-results'
     | '/agent-configuration'
     | '/data-sources'
     | '/login'
@@ -137,6 +149,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AccountResultsRoute: typeof AccountResultsRoute
   AgentConfigurationRoute: typeof AgentConfigurationRoute
   DataSourcesRoute: typeof DataSourcesRoute
   LoginRoute: typeof LoginRoute
@@ -154,6 +167,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account-results': {
+      id: '/account-results'
+      path: '/account-results'
+      fullPath: '/account-results'
+      preLoaderRoute: typeof AccountResultsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/agent-configuration': {
@@ -217,6 +237,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AccountResultsRoute: AccountResultsRoute,
   AgentConfigurationRoute: AgentConfigurationRoute,
   DataSourcesRoute: DataSourcesRoute,
   LoginRoute: LoginRoute,

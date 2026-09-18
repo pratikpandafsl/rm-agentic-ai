@@ -21,6 +21,7 @@ import { Route as OutputFileRouteImport } from './routes/output-file'
 import { Route as PocRunsRouteImport } from './routes/poc-runs'
 import { Route as ProjectSetupRouteImport } from './routes/project-setup'
 import { Route as RulesRouteImport } from './routes/rules'
+import { Route as ValidationRouteImport } from './routes/validation'
 import { Route as WorkflowDesignerRouteImport } from './routes/workflow-designer'
 
 const IndexRoute = IndexRouteImport.update({
@@ -83,6 +84,11 @@ const RulesRoute = RulesRouteImport.update({
   path: '/rules',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ValidationRoute = ValidationRouteImport.update({
+  id: '/validation',
+  path: '/validation',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const WorkflowDesignerRoute = WorkflowDesignerRouteImport.update({
   id: '/workflow-designer',
   path: '/workflow-designer',
@@ -102,6 +108,7 @@ export interface FileRoutesByFullPath {
   '/poc-runs': typeof PocRunsRoute
   '/project-setup': typeof ProjectSetupRoute
   '/rules': typeof RulesRoute
+  '/validation': typeof ValidationRoute
   '/workflow-designer': typeof WorkflowDesignerRoute
 }
 export interface FileRoutesByTo {
@@ -117,6 +124,7 @@ export interface FileRoutesByTo {
   '/poc-runs': typeof PocRunsRoute
   '/project-setup': typeof ProjectSetupRoute
   '/rules': typeof RulesRoute
+  '/validation': typeof ValidationRoute
   '/workflow-designer': typeof WorkflowDesignerRoute
 }
 export interface FileRoutesById {
@@ -133,6 +141,7 @@ export interface FileRoutesById {
   '/poc-runs': typeof PocRunsRoute
   '/project-setup': typeof ProjectSetupRoute
   '/rules': typeof RulesRoute
+  '/validation': typeof ValidationRoute
   '/workflow-designer': typeof WorkflowDesignerRoute
 }
 export interface FileRouteTypes {
@@ -150,6 +159,7 @@ export interface FileRouteTypes {
     | '/poc-runs'
     | '/project-setup'
     | '/rules'
+    | '/validation'
     | '/workflow-designer'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -165,6 +175,7 @@ export interface FileRouteTypes {
     | '/poc-runs'
     | '/project-setup'
     | '/rules'
+    | '/validation'
     | '/workflow-designer'
   id:
     | '__root__'
@@ -180,6 +191,7 @@ export interface FileRouteTypes {
     | '/poc-runs'
     | '/project-setup'
     | '/rules'
+    | '/validation'
     | '/workflow-designer'
   fileRoutesById: FileRoutesById
 }
@@ -196,6 +208,7 @@ export interface RootRouteChildren {
   PocRunsRoute: typeof PocRunsRoute
   ProjectSetupRoute: typeof ProjectSetupRoute
   RulesRoute: typeof RulesRoute
+  ValidationRoute: typeof ValidationRoute
   WorkflowDesignerRoute: typeof WorkflowDesignerRoute
 }
 
@@ -285,6 +298,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RulesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/validation': {
+      id: '/validation'
+      path: '/validation'
+      fullPath: '/validation'
+      preLoaderRoute: typeof ValidationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/workflow-designer': {
       id: '/workflow-designer'
       path: '/workflow-designer'
@@ -308,6 +328,7 @@ const rootRouteChildren: RootRouteChildren = {
   PocRunsRoute: PocRunsRoute,
   ProjectSetupRoute: ProjectSetupRoute,
   RulesRoute: RulesRoute,
+  ValidationRoute: ValidationRoute,
   WorkflowDesignerRoute: WorkflowDesignerRoute,
 }
 export const routeTree = rootRouteImport

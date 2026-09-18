@@ -52,7 +52,9 @@ export function AppLayout({
   const navigate = useNavigate();
   const session = getSession();
   const { tenant, tenantId, setTenantId, role } = useApp();
-  const visibleItems = NAV_ITEMS.filter((item) => role.menu.includes(item.label));
+  const visibleItems = role.menu
+    .map((label) => NAV_ITEMS.find((item) => item.label === label))
+    .filter((item): item is (typeof NAV_ITEMS)[number] => Boolean(item));
 
   return (
     <div className="flex min-h-screen bg-muted/40">
@@ -84,7 +86,7 @@ export function AppLayout({
                   )}
                 >
                   <item.icon className="h-4 w-4 shrink-0" />
-                  {item.label}
+                  {role.menuLabels?.[item.label] ?? item.label}
                 </Link>
               </li>
             ))}
@@ -100,13 +102,20 @@ export function AppLayout({
               No source-system writeback
             </p>
           </div>
-          <Link
-            to="/simulate"
-            className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-xs text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground"
-          >
-            <UserCog className="h-3.5 w-3.5" />
-            Role: {role.name}
-          </Link>
+          {role.canSimulate ? (
+            <Link
+              to="/simulate"
+              className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-xs text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground"
+            >
+              <UserCog className="h-3.5 w-3.5" />
+              Role: {role.name}
+            </Link>
+          ) : (
+            <p className="flex items-center gap-2 px-3 py-2 text-xs text-sidebar-foreground/70">
+              <UserCog className="h-3.5 w-3.5" />
+              Role: {role.name}
+            </p>
+          )}
           {session && (
             <button
               type="button"

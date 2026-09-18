@@ -23,14 +23,16 @@ export const Route = createFileRoute("/simulate")({
 
 function SimulateRoute() {
   const navigate = useNavigate();
+  const { role } = useApp();
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
     if (!getSession()) navigate({ to: "/login" });
+    else if (!role.canSimulate) navigate({ to: "/" });
     setChecked(true);
-  }, [navigate]);
+  }, [navigate, role.canSimulate]);
 
-  if (!checked) return null;
+  if (!checked || !role.canSimulate) return null;
   return <SimulatePage />;
 }
 
@@ -83,7 +85,7 @@ function SimulatePage() {
             <div className="mt-3 flex flex-wrap gap-1.5">
               {item.menu.map((menuItem) => (
                 <span key={menuItem} className="rounded bg-muted px-2 py-1 text-[10px] text-foreground">
-                  {menuItem}
+                  {item.menuLabels?.[menuItem] ?? menuItem}
                 </span>
               ))}
             </div>

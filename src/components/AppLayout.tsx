@@ -24,6 +24,8 @@ import { getSession, signOut } from "@/lib/auth";
 import { useApp } from "@/lib/app-context";
 import { TENANT_LIST, type TenantId } from "@/data/tenants";
 import { cn } from "@/lib/utils";
+import { useTour } from "@/lib/tour-context";
+import { TourOverlay } from "@/components/TourOverlay";
 
 const NAV_ITEMS: { label: string; icon: LucideIcon; to: string }[] = [
   { label: "Overview", icon: LayoutGrid, to: "/" },
@@ -52,6 +54,7 @@ export function AppLayout({
   const navigate = useNavigate();
   const session = getSession();
   const { tenant, tenantId, setTenantId, role } = useApp();
+  const tour = useTour();
   const visibleItems = role.menu
     .map((label) => NAV_ITEMS.find((item) => item.label === label))
     .filter((item): item is (typeof NAV_ITEMS)[number] => Boolean(item));
@@ -75,7 +78,13 @@ export function AppLayout({
         <nav className="flex-1 overflow-y-auto px-3 py-4">
           <ul className="space-y-1">
             {visibleItems.map((item) => (
-              <li key={item.label}>
+              <li
+                key={item.label}
+                className={cn(
+                  tour.step?.menu === item.label &&
+                    "relative z-[60] rounded-md ring-2 ring-primary ring-offset-2 ring-offset-sidebar",
+                )}
+              >
                 <Link
                   to={item.to}
                   className={cn(
@@ -83,6 +92,7 @@ export function AppLayout({
                     active === item.label
                       ? "bg-sidebar-accent font-medium text-sidebar-accent-foreground"
                       : "text-sidebar-foreground/80 hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground",
+                    tour.active && "pointer-events-none",
                   )}
                 >
                   <item.icon className="h-4 w-4 shrink-0" />
@@ -160,6 +170,7 @@ export function AppLayout({
           </div>
           <button
             type="button"
+            onClick={tour.start}
             className="flex items-center gap-2 rounded-md border border-input bg-card px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-accent"
           >
             <Play className="h-3.5 w-3.5" />
@@ -169,6 +180,7 @@ export function AppLayout({
 
         <main className="flex-1 px-6 py-6">{children}</main>
       </div>
+      <TourOverlay />
     </div>
   );
 }

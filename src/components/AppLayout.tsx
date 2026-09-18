@@ -78,7 +78,13 @@ export function AppLayout({
         <nav className="flex-1 overflow-y-auto px-3 py-4">
           <ul className="space-y-1">
             {visibleItems.map((item) => (
-              <li key={item.label}>
+              <li
+                key={item.label}
+                className={cn(
+                  tour.step?.menu === item.label &&
+                    "relative z-[60] rounded-md ring-2 ring-primary ring-offset-2 ring-offset-sidebar",
+                )}
+              >
                 <Link
                   to={item.to}
                   className={cn(
@@ -86,6 +92,7 @@ export function AppLayout({
                     active === item.label
                       ? "bg-sidebar-accent font-medium text-sidebar-accent-foreground"
                       : "text-sidebar-foreground/80 hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground",
+                    tour.active && "pointer-events-none",
                   )}
                 >
                   <item.icon className="h-4 w-4 shrink-0" />

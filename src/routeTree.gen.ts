@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DataSourcesRouteImport } from './routes/data-sources'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as MappingQualityRouteImport } from './routes/mapping-quality'
 import { Route as ProjectSetupRouteImport } from './routes/project-setup'
 import { Route as RulesRouteImport } from './routes/rules'
 
@@ -30,6 +31,11 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MappingQualityRoute = MappingQualityRouteImport.update({
+  id: '/mapping-quality',
+  path: '/mapping-quality',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProjectSetupRoute = ProjectSetupRouteImport.update({
   id: '/project-setup',
   path: '/project-setup',
@@ -45,6 +51,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/data-sources': typeof DataSourcesRoute
   '/login': typeof LoginRoute
+  '/mapping-quality': typeof MappingQualityRoute
   '/project-setup': typeof ProjectSetupRoute
   '/rules': typeof RulesRoute
 }
@@ -52,6 +59,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/data-sources': typeof DataSourcesRoute
   '/login': typeof LoginRoute
+  '/mapping-quality': typeof MappingQualityRoute
   '/project-setup': typeof ProjectSetupRoute
   '/rules': typeof RulesRoute
 }
@@ -60,22 +68,42 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/data-sources': typeof DataSourcesRoute
   '/login': typeof LoginRoute
+  '/mapping-quality': typeof MappingQualityRoute
   '/project-setup': typeof ProjectSetupRoute
   '/rules': typeof RulesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/data-sources' | '/login' | '/project-setup' | '/rules'
+  fullPaths:
+    | '/'
+    | '/data-sources'
+    | '/login'
+    | '/mapping-quality'
+    | '/project-setup'
+    | '/rules'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/data-sources' | '/login' | '/project-setup' | '/rules'
+  to:
+    | '/'
+    | '/data-sources'
+    | '/login'
+    | '/mapping-quality'
+    | '/project-setup'
+    | '/rules'
   id:
-    '__root__' | '/' | '/data-sources' | '/login' | '/project-setup' | '/rules'
+    | '__root__'
+    | '/'
+    | '/data-sources'
+    | '/login'
+    | '/mapping-quality'
+    | '/project-setup'
+    | '/rules'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DataSourcesRoute: typeof DataSourcesRoute
   LoginRoute: typeof LoginRoute
+  MappingQualityRoute: typeof MappingQualityRoute
   ProjectSetupRoute: typeof ProjectSetupRoute
   RulesRoute: typeof RulesRoute
 }
@@ -103,6 +131,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mapping-quality': {
+      id: '/mapping-quality'
+      path: '/mapping-quality'
+      fullPath: '/mapping-quality'
+      preLoaderRoute: typeof MappingQualityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/project-setup': {
       id: '/project-setup'
       path: '/project-setup'
@@ -124,6 +159,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DataSourcesRoute: DataSourcesRoute,
   LoginRoute: LoginRoute,
+  MappingQualityRoute: MappingQualityRoute,
   ProjectSetupRoute: ProjectSetupRoute,
   RulesRoute: RulesRoute,
 }

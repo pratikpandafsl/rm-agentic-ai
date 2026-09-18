@@ -25,7 +25,7 @@ import { cn } from "@/lib/utils";
 const NAV_ITEMS: { label: string; icon: LucideIcon; to?: string }[] = [
   { label: "Overview", icon: LayoutGrid, to: "/" },
   { label: "Project Setup", icon: Briefcase, to: "/project-setup" },
-  { label: "Rules", icon: Scale },
+  { label: "Rules", icon: Scale, to: "/rules" },
   { label: "Data Sources", icon: Database },
   { label: "Mapping & Quality", icon: ShieldCheck },
   { label: "Agent Configuration", icon: SlidersHorizontal },

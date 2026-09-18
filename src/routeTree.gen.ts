@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DataSourcesRouteImport } from './routes/data-sources'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ProjectSetupRouteImport } from './routes/project-setup'
 import { Route as RulesRouteImport } from './routes/rules'
@@ -17,6 +18,11 @@ import { Route as RulesRouteImport } from './routes/rules'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DataSourcesRoute = DataSourcesRouteImport.update({
+  id: '/data-sources',
+  path: '/data-sources',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -37,12 +43,14 @@ const RulesRoute = RulesRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/data-sources': typeof DataSourcesRoute
   '/login': typeof LoginRoute
   '/project-setup': typeof ProjectSetupRoute
   '/rules': typeof RulesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/data-sources': typeof DataSourcesRoute
   '/login': typeof LoginRoute
   '/project-setup': typeof ProjectSetupRoute
   '/rules': typeof RulesRoute
@@ -50,20 +58,23 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/data-sources': typeof DataSourcesRoute
   '/login': typeof LoginRoute
   '/project-setup': typeof ProjectSetupRoute
   '/rules': typeof RulesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/project-setup' | '/rules'
+  fullPaths: '/' | '/data-sources' | '/login' | '/project-setup' | '/rules'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/project-setup' | '/rules'
-  id: '__root__' | '/' | '/login' | '/project-setup' | '/rules'
+  to: '/' | '/data-sources' | '/login' | '/project-setup' | '/rules'
+  id:
+    '__root__' | '/' | '/data-sources' | '/login' | '/project-setup' | '/rules'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DataSourcesRoute: typeof DataSourcesRoute
   LoginRoute: typeof LoginRoute
   ProjectSetupRoute: typeof ProjectSetupRoute
   RulesRoute: typeof RulesRoute
@@ -76,6 +87,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/data-sources': {
+      id: '/data-sources'
+      path: '/data-sources'
+      fullPath: '/data-sources'
+      preLoaderRoute: typeof DataSourcesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -104,6 +122,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DataSourcesRoute: DataSourcesRoute,
   LoginRoute: LoginRoute,
   ProjectSetupRoute: ProjectSetupRoute,
   RulesRoute: RulesRoute,

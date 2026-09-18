@@ -34,7 +34,6 @@ function ProjectSetupPage() {
   const [project, setProject] = useState("Mayo Phase 1 POC");
   const [period, setPeriod] = useState(PERIOD_OPTIONS[0]);
   const [groundTruth, setGroundTruth] = useState(GROUND_TRUTH_OPTIONS[0]);
-  const [environment, setEnvironment] = useState("TEST");
   const [goal, setGoal] = useState(
     "Reconstruct claim lifecycle, correlate evidence, determine current state/root cause and recommend one approved action.",
   );

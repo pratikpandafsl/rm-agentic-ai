@@ -36,7 +36,7 @@ const NAV_ITEMS: { label: string; icon: LucideIcon; to?: string }[] = [
   { label: "Output File", icon: FileText, to: "/output-file" },
   { label: "HITL", icon: User, to: "/hitl" },
   { label: "Validation", icon: TrendingUp, to: "/validation" },
-  { label: "Audit & Versions", icon: History },
+  { label: "Audit & Versions", icon: History, to: "/audit-versions" },
 ];
 
 export function AppLayout({

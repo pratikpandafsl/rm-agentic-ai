@@ -52,7 +52,9 @@ export function AppLayout({
   const navigate = useNavigate();
   const session = getSession();
   const { tenant, tenantId, setTenantId, role } = useApp();
-  const visibleItems = NAV_ITEMS.filter((item) => role.menu.includes(item.label));
+  const visibleItems = role.menu
+    .map((label) => NAV_ITEMS.find((item) => item.label === label))
+    .filter((item): item is (typeof NAV_ITEMS)[number] => Boolean(item));
 
   return (
     <div className="flex min-h-screen bg-muted/40">

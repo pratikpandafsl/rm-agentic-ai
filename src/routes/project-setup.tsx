@@ -34,7 +34,6 @@ function ProjectSetupPage() {
   const [project, setProject] = useState("Mayo Phase 1 POC");
   const [period, setPeriod] = useState(PERIOD_OPTIONS[0]);
   const [groundTruth, setGroundTruth] = useState(GROUND_TRUTH_OPTIONS[0]);
-  const [environment, setEnvironment] = useState("TEST");
   const [goal, setGoal] = useState(
     "Reconstruct claim lifecycle, correlate evidence, determine current state/root cause and recommend one approved action.",
   );
@@ -71,7 +70,7 @@ function ProjectSetupPage() {
         onSubmit={handleSubmit}
         className="mt-5 rounded-lg border border-border bg-card p-6 shadow-sm"
       >
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
           <div>
             <label htmlFor="project" className={labelClass}>
               Project
@@ -111,18 +110,7 @@ function ProjectSetupPage() {
               {GROUND_TRUTH_OPTIONS.map((o) => (
                 <option key={o}>{o}</option>
               ))}
-            </select>
-          </div>
-          <div>
-            <label htmlFor="environment" className={labelClass}>
-              Environment
-            </label>
-            <input
-              id="environment"
-              value={environment}
-              onChange={(e) => setEnvironment(e.target.value)}
-              className={inputClass}
-            />
+          </select>
           </div>
         </div>
 

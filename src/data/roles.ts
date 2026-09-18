@@ -6,6 +6,10 @@ export interface Role {
   description: string;
   /** Sidebar items this role may open. */
   menu: string[];
+  /** Optional display aliases for menu items in the sidebar. */
+  menuLabels?: Record<string, string>;
+  /** Whether this role may open the /simulate role-switcher page. */
+  canSimulate: boolean;
 }
 
 export const ALL_MENU_ITEMS = [
@@ -31,31 +35,32 @@ export const ROLES: Role[] = [
     name: "Super Admin",
     description: "Full access to every configuration, run and audit surface.",
     menu: ALL_MENU_ITEMS,
+    canSimulate: true,
   },
   {
     id: 2,
     name: "Admin",
     description: "Full access except agent model configuration.",
     menu: ALL_MENU_ITEMS.filter((item) => item !== "Agent Configuration"),
+    canSimulate: false,
   },
   {
     id: 3,
     name: "Technology Admin",
     description: "Configuration, data and workflow surfaces without human review.",
     menu: ALL_MENU_ITEMS.filter((item) => item !== "HITL"),
+    canSimulate: false,
   },
   {
     id: 4,
     name: "Operations SMEs",
     description: "Limited review-focused menu for operations reviewers.",
-    menu: [
-      "Overview",
-      "POC Runs",
-      "Account Results",
-      "Output File",
-      "HITL",
-      "Validation",
-    ],
+    menu: ["Overview", "HITL", "Account Results", "Validation"],
+    menuLabels: {
+      HITL: "Validation Queue",
+      Validation: "Validation History",
+    },
+    canSimulate: false,
   },
 ];
 

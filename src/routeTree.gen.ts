@@ -16,6 +16,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as MappingQualityRouteImport } from './routes/mapping-quality'
 import { Route as ProjectSetupRouteImport } from './routes/project-setup'
 import { Route as RulesRouteImport } from './routes/rules'
+import { Route as WorkflowDesignerRouteImport } from './routes/workflow-designer'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -52,6 +53,11 @@ const RulesRoute = RulesRouteImport.update({
   path: '/rules',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WorkflowDesignerRoute = WorkflowDesignerRouteImport.update({
+  id: '/workflow-designer',
+  path: '/workflow-designer',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -61,6 +67,7 @@ export interface FileRoutesByFullPath {
   '/mapping-quality': typeof MappingQualityRoute
   '/project-setup': typeof ProjectSetupRoute
   '/rules': typeof RulesRoute
+  '/workflow-designer': typeof WorkflowDesignerRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -70,6 +77,7 @@ export interface FileRoutesByTo {
   '/mapping-quality': typeof MappingQualityRoute
   '/project-setup': typeof ProjectSetupRoute
   '/rules': typeof RulesRoute
+  '/workflow-designer': typeof WorkflowDesignerRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -80,6 +88,7 @@ export interface FileRoutesById {
   '/mapping-quality': typeof MappingQualityRoute
   '/project-setup': typeof ProjectSetupRoute
   '/rules': typeof RulesRoute
+  '/workflow-designer': typeof WorkflowDesignerRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -91,6 +100,7 @@ export interface FileRouteTypes {
     | '/mapping-quality'
     | '/project-setup'
     | '/rules'
+    | '/workflow-designer'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -100,6 +110,7 @@ export interface FileRouteTypes {
     | '/mapping-quality'
     | '/project-setup'
     | '/rules'
+    | '/workflow-designer'
   id:
     | '__root__'
     | '/'
@@ -109,6 +120,7 @@ export interface FileRouteTypes {
     | '/mapping-quality'
     | '/project-setup'
     | '/rules'
+    | '/workflow-designer'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -119,6 +131,7 @@ export interface RootRouteChildren {
   MappingQualityRoute: typeof MappingQualityRoute
   ProjectSetupRoute: typeof ProjectSetupRoute
   RulesRoute: typeof RulesRoute
+  WorkflowDesignerRoute: typeof WorkflowDesignerRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -172,6 +185,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RulesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/workflow-designer': {
+      id: '/workflow-designer'
+      path: '/workflow-designer'
+      fullPath: '/workflow-designer'
+      preLoaderRoute: typeof WorkflowDesignerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -183,6 +203,7 @@ const rootRouteChildren: RootRouteChildren = {
   MappingQualityRoute: MappingQualityRoute,
   ProjectSetupRoute: ProjectSetupRoute,
   RulesRoute: RulesRoute,
+  WorkflowDesignerRoute: WorkflowDesignerRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

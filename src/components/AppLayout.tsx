@@ -32,7 +32,7 @@ const NAV_ITEMS: { label: string; icon: LucideIcon; to?: string }[] = [
   { label: "Workflow Designer", icon: Workflow, to: "/workflow-designer" },
   { label: "POC Runs", icon: Target, to: "/poc-runs" },
   { label: "Account Results", icon: Newspaper, to: "/account-results" },
-  { label: "New Patterns", icon: Sparkles },
+  { label: "New Patterns", icon: Sparkles, to: "/new-patterns" },
   { label: "Output File", icon: FileText },
   { label: "HITL", icon: User },
   { label: "Validation", icon: TrendingUp },

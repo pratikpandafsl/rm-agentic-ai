@@ -24,6 +24,8 @@ import { getSession, signOut } from "@/lib/auth";
 import { useApp } from "@/lib/app-context";
 import { TENANT_LIST, type TenantId } from "@/data/tenants";
 import { cn } from "@/lib/utils";
+import { useTour } from "@/lib/tour-context";
+import { TourOverlay } from "@/components/TourOverlay";
 
 const NAV_ITEMS: { label: string; icon: LucideIcon; to: string }[] = [
   { label: "Overview", icon: LayoutGrid, to: "/" },
@@ -52,6 +54,7 @@ export function AppLayout({
   const navigate = useNavigate();
   const session = getSession();
   const { tenant, tenantId, setTenantId, role } = useApp();
+  const tour = useTour();
   const visibleItems = role.menu
     .map((label) => NAV_ITEMS.find((item) => item.label === label))
     .filter((item): item is (typeof NAV_ITEMS)[number] => Boolean(item));

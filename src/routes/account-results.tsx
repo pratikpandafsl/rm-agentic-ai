@@ -1,15 +1,15 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { createFileRoute } from "@tanstack/react-router";
 import { AppLayout } from "@/components/AppLayout";
-import { getSession } from "@/lib/auth";
+import { useApp } from "@/lib/app-context";
+import { useProtectedPage } from "@/lib/use-protected-page";
 
 export const Route = createFileRoute("/account-results")({
   head: () => ({
     meta: [
-      { title: "Account Results · RM Agentic AI — Mayo Phase 1" },
-      { name: "description", content: "Review Mayo account outcomes with traceable state, cause, action, confidence and evidence." },
-      { property: "og:title", content: "Account Results · RM Agentic AI — Mayo Phase 1" },
-      { property: "og:description", content: "Review Mayo account outcomes with traceable state, cause, action, confidence and evidence." },
+      { title: "Account Results · RM Agentic AI" },
+      { name: "description", content: "Review account outcomes with traceable state, cause, action, confidence and evidence." },
+      { property: "og:title", content: "Account Results · RM Agentic AI" },
+      { property: "og:description", content: "Review account outcomes with traceable state, cause, action, confidence and evidence." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -17,27 +17,15 @@ export const Route = createFileRoute("/account-results")({
   component: AccountResultsRoute,
 });
 
-const RESULTS = [
-  { account: "MAYO-000184", state: "Denied, unpaid", cause: "Missing modifier after coding denial", action: "Correct and rebill", confidence: "91%", evidence: "DOS; bill date; CARC/RARC; CPT; modifier; note", review: "Validated" },
-  { account: "MAYO-000207", state: "Paid short", cause: "Expected reimbursement variance", action: "Underpayment dispute", confidence: "74%", evidence: "835 lines; payment; expected reimbursement", review: "Needs review" },
-  { account: "MAYO-000233", state: "Resubmitted, pending", cause: "No final adjudication", action: "Re-status", confidence: "69%", evidence: "Resubmission date; payer; account age; notes", review: "Needs review" },
-  { account: "MAYO-000261", state: "Denied", cause: "Medical necessity denial", action: "Appeal", confidence: "88%", evidence: "CARC/RARC; ICD-10; CPT; auth; notes", review: "Validated" },
-];
-
 function AccountResultsRoute() {
-  const navigate = useNavigate();
-  const [checked, setChecked] = useState(false);
-
-  useEffect(() => {
-    if (!getSession()) navigate({ to: "/login" });
-    setChecked(true);
-  }, [navigate]);
-
-  if (!checked) return null;
+  const ready = useProtectedPage("Account Results");
+  if (!ready) return null;
   return <AccountResultsPage />;
 }
 
 function AccountResultsPage() {
+  const { tenant } = useApp();
+
   return (
     <AppLayout active="Account Results">
       <div>
@@ -59,7 +47,7 @@ function AccountResultsPage() {
             </tr>
           </thead>
           <tbody>
-            {RESULTS.map((result) => (
+            {tenant.accountResults.map((result) => (
               <tr key={result.account} className="border-t border-border text-sm text-foreground">
                 <td className="whitespace-nowrap px-3 py-3 font-semibold text-primary">{result.account}</td>
                 <td className="whitespace-nowrap px-3 py-3">{result.state}</td>

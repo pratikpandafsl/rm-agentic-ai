@@ -1,15 +1,15 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { createFileRoute } from "@tanstack/react-router";
 import { AppLayout } from "@/components/AppLayout";
-import { getSession } from "@/lib/auth";
+import { useApp } from "@/lib/app-context";
+import { useProtectedPage } from "@/lib/use-protected-page";
 
 export const Route = createFileRoute("/audit-versions")({
   head: () => ({
     meta: [
-      { title: "Audit and Versions · RM Agentic AI — Mayo Phase 1" },
-      { name: "description", content: "Replay Mayo POC decisions across sources, mappings, rules, agents, workflows, models, and reviewers." },
-      { property: "og:title", content: "Audit and Versions · RM Agentic AI — Mayo Phase 1" },
-      { property: "og:description", content: "Replay Mayo POC decisions across sources, mappings, rules, agents, workflows, models, and reviewers." },
+      { title: "Audit and Versions · RM Agentic AI" },
+      { name: "description", content: "Replay decisions across sources, mappings, rules, agents, workflows, models and reviewers." },
+      { property: "og:title", content: "Audit and Versions · RM Agentic AI" },
+      { property: "og:description", content: "Replay decisions across sources, mappings, rules, agents, workflows, models and reviewers." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -17,27 +17,15 @@ export const Route = createFileRoute("/audit-versions")({
   component: AuditVersionsRoute,
 });
 
-const EVENTS = [
-  { time: "Now", event: "Review saved", actor: "Operations SME", object: "MAYO-000207" },
-  { time: "11:20", event: "Workflow published", actor: "Technology Admin", object: "Workflow v2" },
-  { time: "10:05", event: "Run completed", actor: "System", object: "RUN-001" },
-  { time: "09:40", event: "Rule package published", actor: "Rule Admin", object: "Mayo Rules v3" },
-];
-
 function AuditVersionsRoute() {
-  const navigate = useNavigate();
-  const [checked, setChecked] = useState(false);
-
-  useEffect(() => {
-    if (!getSession()) navigate({ to: "/login" });
-    setChecked(true);
-  }, [navigate]);
-
-  if (!checked) return null;
+  const ready = useProtectedPage("Audit & Versions");
+  if (!ready) return null;
   return <AuditVersionsPage />;
 }
 
 function AuditVersionsPage() {
+  const { tenant } = useApp();
+
   return (
     <AppLayout active="Audit & Versions">
       <div>
@@ -59,7 +47,7 @@ function AuditVersionsPage() {
             </tr>
           </thead>
           <tbody>
-            {EVENTS.map((entry) => (
+            {tenant.audit.map((entry) => (
               <tr key={`${entry.time}-${entry.event}`} className="border-t border-border">
                 <td className="px-3 py-3 text-foreground">{entry.time}</td>
                 <td className="px-3 py-3 text-foreground">{entry.event}</td>

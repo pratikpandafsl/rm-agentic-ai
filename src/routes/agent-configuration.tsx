@@ -56,7 +56,7 @@ function AgentConfigurationPage() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [model, setModel] = useState("Deterministic only");
   const [instruction, setInstruction] = useState("Use supplied evidence only. Distinguish facts from inference. Cite fields. Return schema-valid JSON.");
-  const [schema, setSchema] = useState(AGENTS[0].schema);
+  const [schema, setSchema] = useState(DEFAULT_AGENT.schema);
   const [threshold, setThreshold] = useState("0.8");
   const [notice, setNotice] = useState<string | null>(null);
   const selected = AGENTS[selectedIndex] ?? DEFAULT_AGENT;

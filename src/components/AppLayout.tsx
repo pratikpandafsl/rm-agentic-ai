@@ -20,7 +20,8 @@ import {
   UserCog,
   type LucideIcon,
 } from "lucide-react";
-import { getSession, signOut } from "@/lib/auth";
+import { signOut } from "@/lib/auth";
+import { useUserStore } from "@/stores/use-user-store";
 import { useApp } from "@/lib/app-context";
 import { TENANT_LIST, type TenantId } from "@/data/tenants";
 import { cn } from "@/lib/utils";
@@ -52,7 +53,7 @@ export function AppLayout({
   active: string;
 }) {
   const navigate = useNavigate();
-  const session = getSession();
+  const session = useUserStore((s) => s.user);
   const { tenant, tenantId, setTenantId, role } = useApp();
   const tour = useTour();
   const visibleItems = role.menu

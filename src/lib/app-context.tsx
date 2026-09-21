@@ -13,18 +13,23 @@ import {
   type TenantId,
 } from "@/data/tenants";
 import { DEFAULT_ROLE_ID, getRole, type Role, type RoleId } from "@/data/roles";
+import { useUserStore } from "@/stores/use-user-store";
 
 const TENANT_KEY = "rm-agentic-ai-tenant";
 const ROLE_KEY = "rm-agentic-ai-role";
 
 function readTenant(): TenantId {
   if (typeof window === "undefined") return DEFAULT_TENANT_ID;
+  const fromStore = useUserStore.getState().tenantId;
+  if (fromStore === "mayo" || fromStore === "fsl") return fromStore;
   const stored = window.localStorage.getItem(TENANT_KEY);
   return stored === "mayo" || stored === "fsl" ? stored : DEFAULT_TENANT_ID;
 }
 
 function readRole(): RoleId {
   if (typeof window === "undefined") return DEFAULT_ROLE_ID;
+  const fromStore = useUserStore.getState().roleId;
+  if (fromStore === 1 || fromStore === 2 || fromStore === 3 || fromStore === 4) return fromStore;
   const stored = Number(window.localStorage.getItem(ROLE_KEY));
   return stored === 1 || stored === 2 || stored === 3 || stored === 4
     ? (stored as RoleId)
@@ -50,11 +55,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const setTenantId = useCallback((id: TenantId) => {
     setTenantIdState(id);
     if (typeof window !== "undefined") window.localStorage.setItem(TENANT_KEY, id);
+    useUserStore.getState().setTenantId(id);
   }, []);
 
   const setRoleId = useCallback((id: RoleId) => {
     setRoleIdState(id);
     if (typeof window !== "undefined") window.localStorage.setItem(ROLE_KEY, String(id));
+    useUserStore.getState().setRoleId(id);
   }, []);
 
   const value = useMemo<AppContextValue>(() => {

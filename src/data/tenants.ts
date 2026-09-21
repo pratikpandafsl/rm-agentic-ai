@@ -104,11 +104,11 @@ const mayo: TenantData = {
   id: "mayo",
   name: "Mayo POC",
   shortName: "Mayo",
-  phaseLabel: "Mayo Phase 1",
+  phaseLabel: "Mayo",
   environment: "Test",
   duration: "1-2 months",
   overview: {
-    title: "Mayo Phase 1 lifecycle",
+    title: "Mayo lifecycle",
     subtitle:
       "A configurable, evidence-led AR intelligence workflow with governed human validation.",
     stats: [
@@ -133,7 +133,7 @@ const mayo: TenantData = {
       "Paid accounts provide positive path evidence. Historical write-offs, returns and adjustments remain context until Operations adjudicates them.",
   },
   projectSetup: {
-    project: "Mayo Phase 1 POC",
+    project: "Mayo POC",
     periodOptions: ["To be confirmed", "Last 30 days", "Last 90 days", "Last 12 months"],
     groundTruthOptions: ["Paid accounts first", "Write-offs adjudicated", "All historical outcomes"],
     goal: "Reconstruct claim lifecycle, correlate evidence, determine current state/root cause and recommend one approved action.",
@@ -265,11 +265,11 @@ const fsl: TenantData = {
   id: "fsl",
   name: "FSL",
   shortName: "FSL",
-  phaseLabel: "FSL Phase 1",
+  phaseLabel: "FSL",
   environment: "Test",
   duration: "2-3 months",
   overview: {
-    title: "FSL Phase 1 lifecycle",
+    title: "FSL lifecycle",
     subtitle:
       "An evidence-led receivables intelligence workflow tuned for FSL payer mix and governed review.",
     stats: [
@@ -294,7 +294,7 @@ const fsl: TenantData = {
       "Closed and settled accounts provide positive path evidence. Disputed balances remain context until FSL Operations adjudicates them.",
   },
   projectSetup: {
-    project: "FSL Phase 1 POC",
+    project: "FSL POC",
     periodOptions: ["Last 60 days", "Last 90 days", "Last 6 months", "Last 12 months"],
     groundTruthOptions: ["Settled accounts first", "Disputes adjudicated", "All historical outcomes"],
     goal: "Rebuild the receivable lifecycle, correlate settlement evidence, determine current state/root cause and recommend one approved action.",

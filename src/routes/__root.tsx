@@ -79,14 +79,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "RM Agentic AI — Mayo Phase 1" },
+      { title: "RM Agentic AI — Mayo POC" },
       {
         name: "description",
         content:
           "A configurable, evidence-led accounts-receivable intelligence workflow with governed human validation.",
       },
       { name: "author", content: "RM Agentic AI" },
-      { property: "og:title", content: "RM Agentic AI — Mayo Phase 1" },
+      { property: "og:title", content: "RM Agentic AI — Mayo POC" },
       {
         property: "og:description",
         content:

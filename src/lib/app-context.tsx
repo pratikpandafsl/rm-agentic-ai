@@ -51,11 +51,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const setTenantId = useCallback((id: TenantId) => {
     setTenantIdState(id);
     if (typeof window !== "undefined") window.localStorage.setItem(TENANT_KEY, id);
+    useUserStore.getState().setTenantId(id);
   }, []);
 
   const setRoleId = useCallback((id: RoleId) => {
     setRoleIdState(id);
     if (typeof window !== "undefined") window.localStorage.setItem(ROLE_KEY, String(id));
+    useUserStore.getState().setRoleId(id);
   }, []);
 
   const value = useMemo<AppContextValue>(() => {

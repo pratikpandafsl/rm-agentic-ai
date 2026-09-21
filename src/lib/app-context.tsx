@@ -13,6 +13,7 @@ import {
   type TenantId,
 } from "@/data/tenants";
 import { DEFAULT_ROLE_ID, getRole, type Role, type RoleId } from "@/data/roles";
+import { useUserStore } from "@/stores/use-user-store";
 
 const TENANT_KEY = "rm-agentic-ai-tenant";
 const ROLE_KEY = "rm-agentic-ai-role";
